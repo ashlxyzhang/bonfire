@@ -1,11 +1,15 @@
 import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
-const GoogleButton = () => {
+interface Props {
+  text: string;
+}
+
+const GoogleButton = ({ text }: Props) => {
   return (
     <Button variant={"outline"} onClick={() => signIn("google")}>
       <GoogleLogo />
-      <div>Login with Google</div>
+      <div>{text}</div>
     </Button>
   );
 };

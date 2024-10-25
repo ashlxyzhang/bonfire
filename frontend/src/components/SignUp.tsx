@@ -9,11 +9,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+
 import { useState } from "react";
 import PasswordInput from "./Password";
+import register from "@/actions/register";
+import GoogleButton from "./GoogleButton";
+import router from "next/router";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -21,8 +26,16 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  function handleSignUp() {
-    console.log(email, username, password, name);
+  const [error, setError] = useState("");
+
+  async function handleSignUp() {
+    const r = await register({ email, username, password, name });
+    if (r?.error) {
+      setError(r.error as string);
+      return;
+    } else {
+      return router.push("/");
+    }
   }
 
   return (
@@ -38,37 +51,52 @@ export default function SignUp() {
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">A&M Email</Label>
+                <Label htmlFor="email" className="required">
+                  A&M Email
+                </Label>
                 <Input
                   id="email"
                   placeholder="example@tamu.edu"
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
+                {error && (
+                  <p className="text-red-500 text-xs text-center">{error}</p>
+                )}
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="password">Password</Label>
-                <PasswordInput password={password} setPassword={setPassword} />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name" className="required">
+                  Full Name
+                </Label>
                 <Input id="name" onChange={(e) => setName(e.target.value)} />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username" className="required">
+                  Username
+                </Label>
                 <Input
                   id="username"
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="password" className="required">
+                  Password
+                </Label>
+                <PasswordInput password={password} setPassword={setPassword} />
+              </div>
             </div>
           </form>
         </CardContent>
         <CardFooter className="grid w-full gap-4">
-          <Link href="/">
-            <Button className="w-full" onClick={handleSignUp}>
-              Sign Up
-            </Button>
-          </Link>
+          <Button
+            className="w-full"
+            onClick={handleSignUp}
+            disabled={!email || !name || !password || !username}
+          >
+            Sign Up
+          </Button>
+          <GoogleButton text="Sign up with Google" />
           <div className="text-center text-sm">
             Have an account?{" "}
             <Link href="/" className="underline">

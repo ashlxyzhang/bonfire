@@ -18,8 +18,7 @@ import { PasswordInput } from "./Password";
 import { useState } from "react";
 
 export function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
@@ -36,12 +35,21 @@ export function LoginForm() {
           <form>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="email">Username or A&M Email</Label>
-                <Input id="email" placeholder="example@tamu.edu" />
+                <Label htmlFor="email" className="required">
+                  Username or A&M Email
+                </Label>
+                <Input
+                  id="email"
+                  placeholder="example@tamu.edu"
+                  onChange={(e) => setUser(e.target.value)}
+                  required
+                />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="required">
+                    Password
+                  </Label>
                   <a
                     className="ml-auto inline-block underline text-sm"
                     href="#"
@@ -56,7 +64,7 @@ export function LoginForm() {
         </CardContent>
         <CardFooter className="grid w-full gap-4">
           <Button>Login</Button>
-          <GoogleButton />
+          <GoogleButton text={"Login with Google"} />
           <div className="text-center text-sm">
             Don't have an account?{" "}
             <Link href="/signup" className="underline">
