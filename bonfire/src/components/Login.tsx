@@ -17,10 +17,30 @@ import Link from "next/link";
 import { PasswordInput } from "./Password";
 import { useState } from "react";
 
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 export function LoginForm() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+
+  const [error, setError] = useState("");
+
+  const router = useRouter();
+
+  async function handleLogin() {
+    const r = await signIn("credentials", {
+      user: user,
+      password: password,
+      redirect: false,
+    });
+    if (r?.error) {
+      setError(r.error as string);
+    }
+    if (r?.ok) {
+      return router.push("/");
+    }
+  }
 
   return (
     <div className="flex h-dvh items-center justify-center">
@@ -59,11 +79,16 @@ export function LoginForm() {
                 </div>
                 <PasswordInput password={password} setPassword={setPassword} />
               </div>
+              {error && (
+                <p className="text-red-500 text-xs text-center">{error}</p>
+              )}
             </div>
           </form>
         </CardContent>
         <CardFooter className="grid w-full gap-4">
-          <Button>Login</Button>
+          <Button disabled={!user || !password} onClick={handleLogin}>
+            Login
+          </Button>
           <GoogleButton text={"Login with Google"} />
           <div className="text-center text-sm">
             Don't have an account?{" "}
