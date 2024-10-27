@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,30 +12,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import PasswordInput from "./Password";
-import register from "@/actions/register";
 import GoogleButton from "./GoogleButton";
-import router from "next/router";
 
-export default function SignUp() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+interface Props {
+  email: String;
+  setEmail: Dispatch<SetStateAction<string>>;
+  name: String;
+  setName: Dispatch<SetStateAction<string>>;
+  username: String;
+  setUsername: Dispatch<SetStateAction<string>>;
+  password: String;
+  setPassword: Dispatch<SetStateAction<string>>;
+  error: String;
+  setError: Dispatch<SetStateAction<string>>;
+  handleSignUp: any;
+}
 
-  const [error, setError] = useState("");
-
-  async function handleSignUp() {
-    const r = await register({ email, username, password, name });
-    if (r?.error) {
-      setError(r.error as string);
-      return;
-    } else {
-      return router.push("/");
-    }
-  }
-
+export default function SignUp({
+  email,
+  setEmail,
+  name,
+  setName,
+  username,
+  setUsername,
+  password,
+  setPassword,
+  error,
+  handleSignUp,
+}: Props) {
   return (
     <div className="flex h-dvh items-center justify-center">
       <Card className="w-[350px]">
