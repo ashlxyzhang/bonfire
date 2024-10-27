@@ -1,24 +1,15 @@
 "use server";
 
 import connectDB from "@/lib/mongodb";
-import bcrypt from "bcryptjs";
 import { randomInt } from "crypto";
 import User from "@/models/User";
 import axios from "axios";
 
 interface Props {
   email: string;
-  username: string;
-  password: string;
-  name: string;
 }
 
-export default async function register({
-  email,
-  username,
-  password,
-  name,
-}: Props) {
+export default async function register({ email }: Props) {
   try {
     if (!email.includes("@tamu.edu")) {
       return {
@@ -35,8 +26,6 @@ export default async function register({
       };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const OTP = randomInt(100000, 999999);
 
     const response = await axios.post(
@@ -45,7 +34,7 @@ export default async function register({
 
     if (response.status === 200) {
       return {
-        OTP: OTP,
+        OTP: OTP.toString(),
       };
     } else {
       return {
@@ -53,15 +42,6 @@ export default async function register({
           "Verification email could not be sent. Please check email address.",
       };
     }
-
-    const new_user = new User({
-      name,
-      email,
-      username,
-      password: hashedPassword,
-    });
-
-    // await new_user.save();
   } catch (error) {
     console.log(error);
   }
