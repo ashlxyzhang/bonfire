@@ -8,14 +8,16 @@ interface Props {
   email: string;
   username: string;
   password: string;
-  name: string;
+  firstname: string;
+  lastname: string;
 }
 
 export default async function CreateUser({
   email,
   username,
   password,
-  name,
+  firstname,
+  lastname,
 }: Props) {
   try {
     await connectDB();
@@ -23,7 +25,8 @@ export default async function CreateUser({
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const new_user = new User({
-      name,
+      firstname,
+      lastname,
       email,
       username,
       password: hashedPassword,

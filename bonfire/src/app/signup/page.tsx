@@ -11,7 +11,8 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
 
   const [error, setError] = useState("");
   const [registered, setRegistered] = useState(false);
@@ -39,7 +40,7 @@ export default function SignUpPage() {
   useEffect(() => {
     if (inputOTP.length === 6) {
       if (inputOTP === OTP) {
-        CreateUser({ email, username, password, name });
+        CreateUser({ email, username, password, firstname, lastname });
         setConfirmOTP(
           "Account created successfully. Redirecting to login page..."
         );
@@ -58,8 +59,10 @@ export default function SignUpPage() {
   const signUpProps = {
     email: email,
     setEmail: setEmail,
-    name: name,
-    setName: setName,
+    firstname: firstname,
+    setFirstName: setFirstName,
+    lastname: lastname,
+    setLastName: setLastName,
     username: username,
     setUsername: setUsername,
     password: password,

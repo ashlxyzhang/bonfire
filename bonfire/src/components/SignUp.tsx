@@ -19,8 +19,10 @@ import GoogleButton from "./GoogleButton";
 interface Props {
   email: String;
   setEmail: Dispatch<SetStateAction<string>>;
-  name: String;
-  setName: Dispatch<SetStateAction<string>>;
+  firstname: String;
+  setFirstName: Dispatch<SetStateAction<string>>;
+  lastname: String;
+  setLastName: Dispatch<SetStateAction<string>>;
   username: String;
   setUsername: Dispatch<SetStateAction<string>>;
   password: String;
@@ -33,8 +35,10 @@ interface Props {
 export default function SignUp({
   email,
   setEmail,
-  name,
-  setName,
+  firstname,
+  setFirstName,
+  lastname,
+  setLastName,
   username,
   setUsername,
   password,
@@ -68,11 +72,25 @@ export default function SignUp({
                   <p className="text-red-500 text-xs text-center">{error}</p>
                 )}
               </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name" className="required">
-                  Full Name
-                </Label>
-                <Input id="name" onChange={(e) => setName(e.target.value)} />
+              <div className="flex gap-4">
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="name" className="required">
+                    First Name
+                  </Label>
+                  <Input
+                    id="name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="name" className="required">
+                    Last Name
+                  </Label>
+                  <Input
+                    id="name"
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="username" className="required">
@@ -96,7 +114,9 @@ export default function SignUp({
           <Button
             className="w-full"
             onClick={handleSignUp}
-            disabled={!email || !name || !password || !username}
+            disabled={
+              !email || !firstname || !lastname || !password || !username
+            }
           >
             Sign Up
           </Button>
