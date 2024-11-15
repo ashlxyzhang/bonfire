@@ -1,11 +1,11 @@
 "use client";
 
 import { LoginForm } from "@/components/Login";
-import SignOut from "@/components/SignOut";
+import SetUpProfile from "@/components/profile/SetUpProfile";
 import { useSession } from "next-auth/react";
 
 export default function Page() {
   const { status } = useSession();
 
-  return status === "authenticated" ? <SignOut /> : <LoginForm />;
+  return status === "authenticated" ? <SetUpProfile /> : <LoginForm />;
 }
