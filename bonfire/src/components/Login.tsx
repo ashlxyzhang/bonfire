@@ -19,6 +19,7 @@ import { useState } from "react";
 
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Header from "./Header";
 
 export function LoginForm() {
   const [user, setUser] = useState("");
@@ -29,21 +30,25 @@ export function LoginForm() {
   const router = useRouter();
 
   async function handleLogin() {
+    setError("");
+
     const r = await signIn("credentials", {
       user: user,
       password: password,
       redirect: false,
     });
+
     if (r?.error) {
       setError(r.error as string);
     }
     if (r?.ok) {
-      return router.push("/");
+      router.push("/");
     }
   }
 
   return (
-    <div className="flex h-dvh items-center justify-center">
+    <div className="flex flex-col gap-4 h-dvh items-center justify-center">
+      <Header />
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>
